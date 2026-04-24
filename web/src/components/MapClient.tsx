@@ -8,6 +8,11 @@ const SeoulMap = dynamic(() => import('@/components/SeoulMap'), {
   loading: () => <div className="h-full w-full bg-slate-100" />,
 });
 
-export default function MapClient() {
-  return <SeoulMap />;
+type Props = {
+  selectedDistrict: string | null;
+  onSelectDistrict: (name: string) => void;
+};
+
+export default function MapClient(props: Props) {
+  return <SeoulMap {...props} />;
 }
