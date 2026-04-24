@@ -11,3 +11,7 @@ export function getAllFacilities(): Facility[] {
 export function getFacilitiesByDistrict(district: string): Facility[] {
   return ALL.filter((f) => f.district === district);
 }
+
+export function getAllCategories(): string[] {
+  return Array.from(new Set(ALL.map((f) => f.category))).sort();
+}

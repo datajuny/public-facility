@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -12,20 +12,78 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Leaflet 컨테이너가 전역 stacking context 를 만들어 배지를 가리지 않도록 */
 .leaflet-container {
   z-index: 0;
+  font-family: inherit;
+}
+
+/* Leaflet 팝업 스타일 재정의 — 둥근 모서리와 미세한 그림자 */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
+  padding: 4px;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px;
+  line-height: 1.5;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+}
+
+/* 줌 컨트롤 둥글게 */
+.leaflet-bar a {
+  border-radius: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  color: #475569 !important;
+}
+.leaflet-bar a:hover {
+  background-color: #f8fafc !important;
+}
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Attribution 컨트롤 약간 투명하게 */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+}
+
+/* 클러스터 기본 색 오버라이드 — 프로젝트 뉴트럴 톤으로 */
+.marker-cluster {
+  background-color: rgba(148, 163, 184, 0.25) !important;
+}
+.marker-cluster div {
+  background-color: rgba(71, 85, 105, 0.95) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+/* 커스텀 스크롤바 (우측 패널) */
+.flex-1.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+.flex-1.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.flex-1.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
 }

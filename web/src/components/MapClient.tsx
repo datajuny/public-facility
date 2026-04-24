@@ -2,6 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { Facility } from '@/types/facility';
 
 const SeoulMap = dynamic(() => import('@/components/SeoulMap'), {
   ssr: false,
@@ -11,6 +12,8 @@ const SeoulMap = dynamic(() => import('@/components/SeoulMap'), {
 type Props = {
   selectedDistrict: string | null;
   onSelectDistrict: (name: string) => void;
+  userLocation?: { lat: number; lng: number } | null;
+  facilities: Facility[];
 };
 
 export default function MapClient(props: Props) {
