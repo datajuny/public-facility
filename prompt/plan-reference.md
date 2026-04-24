@@ -123,7 +123,8 @@ src/
     page.tsx        # 상태 보유 ('use client')
     globals.css
   components/
-    SeoulMap.tsx    # 'use client'
+    MapClient.tsx   # 'use client' · dynamic({ssr:false}) 래퍼
+    SeoulMap.tsx    # 'use client' · 실제 Leaflet 지도
     FacilityList.tsx
     FacilityCard.tsx
   lib/
@@ -160,7 +161,11 @@ src/
 CLAUDE.md 를 먼저 다 읽은 뒤 아래를 순서대로 진행해줘.
 
 1. Next.js 프로젝트 초기화
-   `npx create-next-app@latest . --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --no-turbopack --yes`
+   - 주의: 현재 폴더에 `config/`, `prompt/`, `public_data/`, `CLAUDE.md` 가 이미 있어서 `create-next-app .` 이 거부해.
+     → 이 파일들을 임시로 상위 폴더(`../_init-backup/`)로 옮기고, 초기화가 끝나면 원래 자리로 복원해. `.gitignore` 는 Next.js 가 새로 만들어주니 백업할 필요 없음.
+   - 초기화 커맨드
+     `npx create-next-app@latest . --ts --eslint --tailwind --src-dir --app --import-alias "@/*" --no-turbopack --yes`
+   - 끝나면 백업 폴더 삭제.
 
 2. Leaflet 설치
    `npm i leaflet react-leaflet` 그리고 `npm i -D @types/leaflet`
@@ -185,9 +190,20 @@ CLAUDE.md 를 먼저 다 읽은 뒤 아래를 순서대로 진행해줘.
    - <GeoJSON> 으로 `config/seoul_municipalities_geo_simple.json` 표시
    - 스타일은 `districtStyle.default` 그대로 적용
 
-7. `src/app/page.tsx` 를 'use client' 로 바꾸고, next/dynamic + { ssr: false } 로 SeoulMap을 불러와서 화면 전체를 채우게 배치 (<main className="h-screen w-screen bg-white">)
+7. `src/components/MapClient.tsx` 생성 — 지도를 브라우저에서만 로드하는 클라이언트 래퍼
+   - 'use client'
+   - `const SeoulMap = dynamic(() => import('@/components/SeoulMap'), { ssr: false, loading: () => <div className="h-full w-full bg-slate-100" /> });`
+   - 기본 export 로 `<SeoulMap />` 반환
+   - 이렇게 래퍼로 분리해야 Next.js 16 의 `BAILOUT_TO_CLIENT_SIDE_RENDERING` 이슈를 피할 수 있어.
 
-8. `npm run dev` 를 백그라운드로 실행
+8. `src/app/page.tsx` 는 서버 컴포넌트 그대로 두고 `<MapClient />` 를 렌더
+   `<main className="h-screen w-screen bg-white"><MapClient /></main>`
+
+9. `src/app/layout.tsx` 의 `<html>` 과 `<body>` 에 `suppressHydrationWarning` 을 추가
+   - Dark Reader, Grammarly 같은 브라우저 확장이 `<html>` 에 속성을 주입해서 Hydration 경고가 뜨는 걸 방지.
+   - `<html lang="ko">` 로 언어도 한국어 설정.
+
+10. `npm run dev` 를 백그라운드로 실행
 
 작업이 끝나면 "Step 1 검증해보세요" 라고 알려줘.
 ```
@@ -202,8 +218,11 @@ CLAUDE.md 를 먼저 다 읽은 뒤 아래를 순서대로 진행해줘.
 
 ### 막히면
 - 지도가 회색만 뜸 → `<main>` 에 `h-screen w-screen` 이 있는지 확인
-- `window is not defined` → `next/dynamic` 에 `{ ssr: false }` 누락
+- `window is not defined` → `MapClient` 래퍼의 `dynamic({ ssr: false })` 누락
 - CSS가 깨짐 → `import 'leaflet/dist/leaflet.css'` 누락
+- `BAILOUT_TO_CLIENT_SIDE_RENDERING` 관련 Hydration 에러 → `dynamic + ssr:false` 를 `page.tsx` 에서 직접 쓰지 말고 `MapClient` 래퍼에 담을 것. page.tsx 는 서버 컴포넌트여야 함.
+- "A tree hydrated but some attributes didn't match" → 브라우저 확장(Dark Reader 등)이 원인. layout.tsx 의 `<html>`/`<body>` 에 `suppressHydrationWarning` 추가
+- "Map container is being reused by another instance" → `.next` 폴더 삭제하고 dev 재시작
 
 💡 **바이브 코딩 포인트 · 에러 대응**
 에러 메시지는 **전체를 그대로** Claude Code에 붙여넣으세요. 요약해서 전달하면 AI가 엉뚱한 곳을 고칩니다.
