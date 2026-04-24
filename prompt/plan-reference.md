@@ -349,7 +349,7 @@ CLAUDE.md 를 먼저 다 읽은 뒤 아래를 순서대로 진행해줘. 모든 
      description: "서울 25개 구의 공공시설을 지도에서 찾아보세요.",
    };
 
-2. web/src/app/page.tsx 의 dynamic(() => import('@/components/SeoulMap'), ...) 에 로딩 플레이스홀더 추가:
+2. web/src/components/MapClient.tsx 의 dynamic(() => import('@/components/SeoulMap'), ...) 로딩 플레이스홀더에 animate-pulse 추가:
    { ssr: false, loading: () => <div className="h-full w-full animate-pulse bg-slate-100" /> }
 
 3. web/src/app/globals.css 맨 아래에 한 줄 추가 (Step 2의 배지가 지도에 가려지는 것을 방지):

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 const SeoulMap = dynamic(() => import('@/components/SeoulMap'), {
   ssr: false,
-  loading: () => <div className="h-full w-full bg-slate-100" />,
+  loading: () => <div className="h-full w-full animate-pulse bg-slate-100" />,
 });
 
 type Props = {
