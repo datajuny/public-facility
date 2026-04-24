@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import type { FeatureCollection } from 'geojson';
 
 import { districtStyle } from '@/styles/theme';
-import seoulGeo from '../../config/seoul_municipalities_geo_simple.json';
+import seoulGeo from '@data/seoul_municipalities_geo_simple.json';
 
 const SEOUL_CENTER: [number, number] = [37.5665, 126.978];
 const DEFAULT_ZOOM = 11;

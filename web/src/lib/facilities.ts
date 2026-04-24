@@ -1,6 +1,6 @@
 // 공공시설 데이터 로더. config/facilities.json 을 읽어 필터링 함수를 제공한다.
 import type { Facility } from '@/types/facility';
-import raw from '../../config/facilities.json';
+import raw from '@data/facilities.json';
 
 const ALL = raw as Facility[];
 
