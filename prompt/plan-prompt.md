@@ -11,11 +11,18 @@
 - 스타일은 Tailwind CSS
 
 데이터는 이미 config 폴더에 준비해뒀어:
+
 - config/seoul_municipalities_geo_simple.json
-  서울 25개 구 경계 GeoJSON. properties.name 에 구 이름이 들어있음.
+  서울 25개 구 경계 GeoJSON 파일.
+  type: "FeatureCollection", features 배열에 구 25개.
+  각 feature.properties.name 에 한글 구 이름 (예: "강남구", "종로구").
+  각 feature.geometry.coordinates 에 구 경계를 이루는 위도/경도 좌표 배열.
+
 - config/facilities.json
-  공공시설 306개. 각 항목 필드는
-  id, name, category, district, address, phone, hours, lat, lng
+  서울 공공시설 306개 배열. 출처는 서울 열린데이터광장의 CSV 3종 통합.
+  카테고리는 3가지: "공공도서관"(215), "야경명소"(51), "장난감도서관"(40).
+  각 항목 필드: id, name, category, district, address, phone, hours, lat, lng.
+  구 이름 매칭 키는 district, GeoJSON 의 properties.name 과 동일한 형식(한글).
 
 클로드 코드를 공부하는 수강생 대상이라서, 빈 폴더에서 시작해서 완성까지 단계별로 계획을 세워줘.
 맨 앞에는 CLAUDE.md(프로젝트 규칙을 정리하는 파일)를 만드는 단계부터 포함해줘. 이후 단계들은 이 CLAUDE.md에 정리된 규칙(색 · 레이아웃 · 폴더 구조 · 도메인 이름 · 데이터 형식)을 따라가야 해.
