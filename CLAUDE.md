@@ -37,7 +37,8 @@ src/
     page.tsx        # 상태 보유 ('use client')
     globals.css
   components/
-    SeoulMap.tsx    # 'use client'
+    MapClient.tsx   # 'use client' · dynamic({ssr:false}) 래퍼
+    SeoulMap.tsx    # 'use client' · 실제 Leaflet 지도
     FacilityList.tsx
     FacilityCard.tsx
   lib/
