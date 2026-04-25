@@ -73,10 +73,13 @@ public-facility/
 
 ## 🛠 기술 스택 (완성본 기준)
 
-- **Next.js 14** (App Router) + **TypeScript** + **Tailwind CSS**
-- **Leaflet** + **react-leaflet** (지도 렌더링)
-- **react-leaflet-cluster** (마커 클러스터링)
-- **CartoDB Voyager** 타일 지도
+- **Next.js 14** (App Router) · React 기반 웹앱 프레임워크. 이 프로젝트는 `web/` 서브폴더에 생성됨
+- **TypeScript** · JavaScript 에 타입 시스템 얹힌 언어
+- **Tailwind CSS** · 클래스명 조합으로 스타일링하는 CSS 라이브러리
+- **Leaflet** · 오픈소스 지도 JS 라이브러리. 타일 이미지 + 마커 + 팝업 + 다각형 렌더링
+- **react-leaflet** · Leaflet 을 React 컴포넌트(`<MapContainer>`, `<Marker>` 등)로 감싼 래퍼
+- **react-leaflet-cluster** · 마커가 많을 때 줌아웃 시 자동으로 뭉쳐주는(클러스터링) 플러그인
+- **CartoDB Voyager** · 지도 배경 타일(실제 이미지) 을 제공하는 무료 서버. OpenStreetMap 데이터를 세련된 스타일로 렌더
 
 ## 🚀 배포
 
